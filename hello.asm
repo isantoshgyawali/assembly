@@ -25,13 +25,13 @@
     ; Calculating length of string
     ;   - $: current address of the program counter
     ;   - message: start address of the string here: "Hello, World!" 
-    ; so, $ - msg : no. of bytes from start of msg to currrent position $
+    ; so, $ - message : no. of bytes from start of msg to currrent position $
     ; 
     ; but why, why why?? we even calculating:
     ; - so basically, we calculate the length dynamically so that we could operate with string without
     ;   worrying about the changing length of the string while doing register operations. eg, if we added/remove something to 
     ;   string we don't need to re-calculate the length of the string again
-    ; - but, why even require length while when I just want to print a simple strings: 
+    ; - but, why even require length while when I just want to print a simple string: 
     ;   because registers(eg. edx) holds numerical values (address, length)  
     ;   and we can't directly move string to register(eg. edx) without specifying something meaningful to them
     ;   also syscall like write requires specific no. of bytes to be written, if you want to print a string, you
@@ -84,3 +84,12 @@
       ; now, as eax is set to 1, triggering sys_exit causing to exit the program
       ; value of ebx is passed as the exit code
       int 0x80
+
+  ; And, Last but not the least the registers could not be swaped with other kind of info 
+  ; like, eax : should must contain syscall - it can't contain file descriptor
+  ; similary, 
+  ; ebx: file descriptor
+  ; ecx: address
+  ; edx: length
+  ; because that is what OS expects, "specific arguments in specific registers".
+  ; Linux syscall convention strictly defines what each reg. must contain for syscall to execute properly
